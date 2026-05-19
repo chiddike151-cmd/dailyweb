@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>your little corner ✦</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #fce8ee;
+    color: #4a2a32;
+    min-height: 100vh;
+  }
+
+  .hub {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .header h1 {
+    font-family: 'Lora', serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: #4a2a32;
+    letter-spacing: -0.3px;
+  }
+
+  .header .date-line {
+    font-size: 14px;
+    color: #c4909a;
+    margin-top: 6px;
+    font-weight: 300;
+  }
+
+  .header .greeting {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: #a06070;
+    margin-top: 4px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    background: #fff5f7;
+    border-radius: 18px;
+    border: 1px solid #f0c8d4;
+    padding: 20px;
+    overflow: hidden;
+  }
+
+  .card.full { grid-column: 1 / -1; }
+
+  .card-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #d4909e;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .card-label i { font-size: 13px; }
+
+  /* WEATHER */
+  .weather-main { display: flex; align-items: center; justify-content: space-between; }
+  .weather-icon { font-size: 48px; line-height: 1; }
+  .weather-temp { font-family: 'Lora', serif; font-size: 46px; font-weight: 400; color: #4a2a32; }
+  .weather-desc { font-size: 13px; color: #c4909a; margin-top: 3px; }
+  .weather-details { display: flex; gap: 14px; margin-top: 14px; font-size: 13px; color: #c4909a; }
+
+  /* QUOTE */
+  .quote-text { font-family: 'Lora', serif; font-style: italic; font-size: 14px; line-height: 1.75; color: #7a3a48; }
+  .quote-author { font-size: 12px; color: #d4909e; margin-top: 8px; }
+  .quote-btn { background: none; border: 1px solid #f0c8d4; border-radius: 8px; padding: 6px 12px; font-size: 11px; color: #c4909a; cursor: pointer; margin-top: 12px; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+  .quote-btn:hover { background: #fce8ee; }
+
+  /* COUNTDOWN */
+  .countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px; }
+  .cd-block { background: #fce8ee; border-radius: 10px; padding: 10px 4px; text-align: center; }
+  .cd-num { font-family: 'Lora', serif; font-size: 24px; color: #4a2a32; }
+  .cd-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; color: #d4909e; margin-top: 2px; }
+  .cd-event { font-size: 13px; color: #a06070; margin-bottom: 8px; }
+  .cd-input-row { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .cd-input-row input { flex: 1; min-width: 80px; padding: 6px 8px; font-size: 12px; border: 1px solid #f0c8d4; border-radius: 8px; background: #fce8ee; color: #4a2a32; font-family: 'DM Sans', sans-serif; }
+  .cd-input-row button { padding: 6px 12px; font-size: 12px; background: #e8789a; border: none; border-radius: 8px; color: #fff; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .cd-input-row button:hover { opacity: 0.85; }
+
+  /* TO-DO */
+  .todo-list { list-style: none; max-height: 180px; overflow-y: auto; margin-bottom: 12px; }
+  .todo-list::-webkit-scrollbar { width: 4px; }
+  .todo-list::-webkit-scrollbar-thumb { background: #f0c8d4; border-radius: 4px; }
+  .todo-item { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #fad8e2; font-size: 13px; color: #4a2a32; }
+  .todo-item:last-child { border-bottom: none; }
+  .todo-check { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid #e8a8b8; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+  .todo-check.done { background: #e8789a; border-color: #e8789a; }
+  .todo-check.done::after { content: '✓'; color: white; font-size: 11px; }
+  .todo-text { flex: 1; }
+  .todo-text.done { text-decoration: line-through; color: #d4909e; }
+  .todo-del { color: #e8b8c4; cursor: pointer; font-size: 18px; line-height: 1; background: none; border: none; padding: 0 2px; }
+  .todo-del:hover { color: #d05070; }
+  .todo-add { display: flex; gap: 8px; }
+  .todo-add input { flex: 1; padding: 7px 12px; font-size: 13px; border: 1px solid #f0c8d4; border-radius: 10px; background: #fce8ee; color: #4a2a32; font-family: 'DM Sans', sans-serif; }
+  .todo-add button { padding: 7px 14px; background: #e8789a; border: none; border-radius: 10px; color: #fff; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 14px; }
+  .todo-add button:hover { opacity: 0.85; }
+
+  /* MOOD MUSIC */
+  .mood-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 16px; }
+  @media (max-width: 600px) { .mood-grid { grid-template-columns: repeat(3, 1fr); } }
+  .mood-btn { background: #fce8ee; border: 1.5px solid transparent; border-radius: 12px; padding: 10px 6px; text-align: center; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 12px; color: #7a3a48; transition: all 0.15s; }
+  .mood-btn:hover { background: #f8d8e4; }
+  .mood-btn.active { border-color: #e8789a; background: #ffe0ea; }
+  .mood-btn .mood-emoji { font-size: 22px; display: block; margin-bottom: 4px; }
+  .mood-btn .mood-name { font-weight: 500; display: block; font-size: 11px; }
+  .mood-btn .mood-genre { font-size: 9px; color: #d4909e; display: block; margin-top: 1px; }
+  .spotify-embed { border-radius: 12px; overflow: hidden; }
+  .spotify-placeholder { background: #fce8ee; border-radius: 12px; padding: 20px; text-align: center; font-size: 13px; color: #c4909a; font-style: italic; }
+
+  /* ACTIVITY */
+  .activity-inner { background: #fce8ee; border-radius: 12px; padding: 18px; text-align: center; min-height: 100px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 12px; }
+  .activity-emoji { font-size: 34px; margin-bottom: 8px; }
+  .activity-text { font-family: 'Lora', serif; font-size: 14px; color: #4a2a32; line-height: 1.6; }
+  .activity-tag { display: inline-block; font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase; background: #f0c8d4; color: #c4909a; border-radius: 6px; padding: 2px 8px; margin-top: 10px; }
+  .activity-btns { display: flex; gap: 8px; }
+  .activity-btns button { flex: 1; padding: 8px; font-size: 12px; border-radius: 10px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: opacity 0.15s; }
+  .btn-reroll { background: #e8789a; border: none; color: #fff; }
+  .btn-reroll:hover { opacity: 0.85; }
+  .btn-done { background: none; border: 1px solid #f0c8d4; color: #c4909a; }
+  .btn-done:hover { background: #fce8ee; }
+  .act-count { font-size: 11px; color: #d4909e; margin-top: 8px; text-align: center; }
+
+  /* TRIVIA */
+  .trivia-q { font-family: 'Lora', serif; font-size: 15px; color: #4a2a32; line-height: 1.65; margin-bottom: 14px; min-height: 50px; }
+  .trivia-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .trivia-opt { background: #fce8ee; border: 1.5px solid #f0c8d4; border-radius: 10px; padding: 10px 12px; font-size: 13px; color: #4a2a32; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; text-align: left; }
+  .trivia-opt:hover:not(:disabled) { background: #f8d8e4; }
+  .trivia-opt.correct { background: #e0f0e0; border-color: #8aaa78; color: #3a6a30; }
+  .trivia-opt.wrong { background: #f8e0e0; border-color: #e09090; color: #903030; }
+  .trivia-opt:disabled { cursor: default; }
+  .trivia-result { font-size: 13px; color: #a06070; min-height: 20px; margin-bottom: 10px; font-style: italic; }
+  .trivia-next { background: #e8789a; border: none; border-radius: 10px; padding: 8px 20px; color: #fff; font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; display: none; }
+  .trivia-next:hover { opacity: 0.85; }
+  .trivia-score { font-size: 12px; color: #d4909e; margin-top: 10px; }
+
+  /* WORD SCRAMBLE */
+  .game-word { font-family: 'Lora', serif; font-size: 30px; letter-spacing: 10px; color: #4a2a32; text-align: center; padding: 12px 0; }
+  .game-hint { font-size: 12px; color: #d4909e; text-align: center; margin-bottom: 14px; }
+  .game-input-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  .game-input-row input { flex: 1; padding: 9px 14px; font-size: 15px; border: 1px solid #f0c8d4; border-radius: 10px; background: #fce8ee; color: #4a2a32; font-family: 'DM Sans', sans-serif; text-align: center; letter-spacing: 3px; }
+  .game-input-row button { padding: 9px 20px; background: #e8789a; border: none; border-radius: 10px; color: #fff; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; }
+  .game-input-row button:hover { opacity: 0.85; }
+  .game-msg { font-size: 13px; text-align: center; min-height: 22px; color: #a06070; font-style: italic; }
+  .game-msg.correct { color: #6a9868; font-weight: 500; font-style: normal; }
+  .game-msg.wrong { color: #c85070; }
+  .game-score { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #d4909e; margin-top: 12px; }
+  .game-skip { background: none; border: 1px solid #f0c8d4; border-radius: 8px; padding: 5px 12px; font-size: 11px; color: #d4909e; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .game-skip:hover { background: #fce8ee; }
+
+  /* HABIT TRACKER */
+  .habit-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+  .habit-row { display: flex; align-items: center; gap: 10px; }
+  .habit-name { flex: 1; font-size: 13px; color: #4a2a32; }
+  .habit-dots { display: flex; gap: 4px; }
+  .habit-dot { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #f0c8d4; background: #fce8ee; cursor: pointer; transition: all 0.15s; font-size: 11px; display: flex; align-items: center; justify-content: center; color: transparent; }
+  .habit-dot.done { background: #e8789a; border-color: #e8789a; color: white; }
+  .habit-dot:hover:not(.done) { background: #f8d8e4; }
+  .habit-del-btn { background: none; border: none; color: #e8b8c4; font-size: 15px; cursor: pointer; padding: 0 2px; }
+  .habit-del-btn:hover { color: #d05070; }
+  .habit-add { display: flex; gap: 6px; }
+  .habit-add input { flex: 1; padding: 6px 10px; font-size: 12px; border: 1px solid #f0c8d4; border-radius: 10px; background: #fce8ee; color: #4a2a32; font-family: 'DM Sans', sans-serif; }
+  .habit-add button { padding: 6px 12px; background: #e8789a; border: none; border-radius: 10px; color: #fff; font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .habit-add button:hover { opacity: 0.85; }
+  .habit-day-labels { display: flex; gap: 4px; margin-left: auto; margin-bottom: 4px; }
+  .habit-day-label { width: 22px; text-align: center; font-size: 9px; color: #d4909e; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* DIARY */
+  .diary-date-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .diary-date { font-family: 'Lora', serif; font-size: 13px; color: #a06070; font-style: italic; }
+  .diary-nav { display: flex; gap: 6px; }
+  .diary-nav button { background: none; border: 1px solid #f0c8d4; border-radius: 8px; padding: 3px 8px; font-size: 12px; color: #c4909a; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .diary-nav button:hover { background: #fce8ee; }
+  .diary-textarea { width: 100%; min-height: 110px; padding: 10px 12px; font-size: 13px; font-family: 'Lora', serif; line-height: 1.7; border: 1px solid #f0c8d4; border-radius: 12px; background: #fce8ee; color: #4a2a32; resize: vertical; outline: none; transition: border 0.15s; }
+  .diary-textarea:focus { border-color: #e8789a; }
+  .diary-textarea::placeholder { color: #d4909e; font-style: italic; }
+  .diary-save { margin-top: 8px; display: flex; align-items: center; gap: 10px; }
+  .diary-save button { padding: 6px 14px; background: #e8789a; border: none; border-radius: 10px; color: #fff; font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+  .diary-save button:hover { opacity: 0.85; }
+  .diary-saved-msg { font-size: 11px; color: #6a9868; font-style: italic; opacity: 0; transition: opacity 0.3s; }
+  .diary-saved-msg.show { opacity: 1; }
+  .diary-mood-row { display: flex; gap: 6px; margin-bottom: 10px; }
+  .diary-mood-btn { background: none; border: 1.5px solid #f0c8d4; border-radius: 8px; padding: 4px 8px; font-size: 16px; cursor: pointer; transition: all 0.15s; }
+  .diary-mood-btn:hover { background: #fce8ee; }
+  .diary-mood-btn.selected { border-color: #e8789a; background: #ffe0ea; }
+
+  /* WORDLE */
+  .wordle-grid { display: grid; grid-template-rows: repeat(6, 1fr); gap: 5px; margin-bottom: 14px; max-width: 220px; margin-left: auto; margin-right: auto; }
+  .wordle-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+  .wordle-cell { width: 38px; height: 38px; border: 2px solid #f0c8d4; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Lora', serif; font-size: 16px; font-weight: 500; color: #4a2a32; text-transform: uppercase; transition: all 0.2s; background: #fff5f7; }
+  .wordle-cell.filled { border-color: #e8a8b8; }
+  .wordle-cell.correct { background: #e8789a; border-color: #e8789a; color: white; }
+  .wordle-cell.present { background: #f0c050; border-color: #e0a830; color: white; }
+  .wordle-cell.absent { background: #d0b8be; border-color: #d0b8be; color: white; }
+  .wordle-keyboard { display: flex; flex-direction: column; gap: 5px; align-items: center; margin-bottom: 10px; }
+  .wordle-kb-row { display: flex; gap: 4px; }
+  .wordle-key { min-width: 28px; height: 34px; padding: 0 5px; background: #fce8ee; border: 1px solid #f0c8d4; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; color: #4a2a32; cursor: pointer; text-transform: uppercase; transition: all 0.1s; }
+  .wordle-key:hover { background: #f8d8e4; }
+  .wordle-key.correct { background: #e8789a; border-color: #e8789a; color: white; }
+  .wordle-key.present { background: #f0c050; border-color: #e0a830; color: white; }
+  .wordle-key.absent { background: #d0b8be; border-color: #d0b8be; color: white; }
+  .wordle-key.wide { min-width: 44px; font-size: 10px; }
+  .wordle-msg { text-align: center; font-size: 13px; color: #a06070; font-style: italic; min-height: 20px; margin-bottom: 6px; }
+  .wordle-msg.win { color: #6a9868; font-weight: 500; font-style: normal; }
+  .wordle-msg.lose { color: #c85070; }
+  .wordle-new { background: none; border: 1px solid #f0c8d4; border-radius: 8px; padding: 5px 12px; font-size: 11px; color: #c4909a; cursor: pointer; font-family: 'DM Sans', sans-serif; display: block; margin: 0 auto; }
+  .wordle-new:hover { background: #fce8ee; }
+
+  /* RESPONSIVE */
+  @media (max-width: 540px) {
+    .grid { grid-template-columns: 1fr; }
+    .card.full { grid-column: auto; }
+    .mood-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="hub">
+
+  <div class="header">
+    <h1>your little corner ✦</h1>
+    <div class="date-line" id="dateStr"></div>
+    <div class="greeting" id="greeting"></div>
+  </div>
+
+  <div class="grid">
+
+    <!-- Weather -->
+    <div class="card">
+      <div class="card-label"><i class="ti ti-cloud" aria-hidden="true"></i> weather</div>
+      <div class="weather-main">
+        <div>
+          <div class="weather-temp" id="wTemp">—°</div>
+          <div class="weather-desc" id="wDesc">fetching...</div>
+        </div>
+        <div class="weather-icon" id="wIcon">🌤️</div>
+      </div>
+      <div class="weather-details">
+        <span id="wHumid"></span>
+        <span id="wWind"></span>
+      </div>
+    </div>
+
+    <!-- Quote -->
+    <div class="card">
+      <div class="card-label"><i class="ti ti-feather" aria-hidden="true"></i> today's thought</div>
+      <div class="quote-text" id="qText"></div>
+      <div class="quote-author" id="qAuthor"></div>
+      <button class="quote-btn" onclick="nextQuote()">↻ new thought</button>
+    </div>
+
+    <!-- Countdown -->
+    <div class="card">
+      <div class="card-label"><i class="ti ti-calendar-event" aria-hidden="true"></i> countdown</div>
+      <div class="cd-event" id="cdEvent">Christmas 🎄</div>
+      <div class="countdown-grid">
+        <div class="cd-block"><div class="cd-num" id="cdD">00</div><div class="cd-label">days</div></div>
+        <div class="cd-block"><div class="cd-num" id="cdH">00</div><div class="cd-label">hrs</div></div>
+        <div class="cd-block"><div class="cd-num" id="cdM">00</div><div class="cd-label">min</div></div>
+        <div class="cd-block"><div class="cd-num" id="cdS">00</div><div class="cd-label">sec</div></div>
+      </div>
+      <div class="cd-input-row">
+        <input type="text" id="cdName" placeholder="Event name" />
+        <input type="date" id="cdDate" />
+        <button onclick="setCountdown()">Set</button>
+      </div>
+    </div>
+
+    <!-- To-Do -->
+    <div class="card">
+      <div class="card-label"><i class="ti ti-checks" aria-hidden="true"></i> today's list</div>
+      <ul class="todo-list" id="todoList"></ul>
+      <div class="todo-add">
+        <input type="text" id="todoInput" placeholder="Add a task..." />
+        <button onclick="addTodo()">+</button>
+      </div>
+    </div>
+
+    <!-- Mood Music -->
+    <div class="card full">
+      <div class="card-label"><i class="ti ti-music" aria-hidden="true"></i> mood music</div>
+      <div class="mood-grid">
+        <button class="mood-btn" onclick="setMood(this,'37i9dQZF1DX4sWSpwq3LiO')">
+          <span class="mood-emoji">🕯️</span><span class="mood-name">Cosy</span><span class="mood-genre">acoustic · indie</span>
+        </button>
+        <button class="mood-btn" onclick="setMood(this,'37i9dQZF1DWZeKCadgRdKQ')">
+          <span class="mood-emoji">🎯</span><span class="mood-name">Focus</span><span class="mood-genre">lo-fi · ambient</span>
+        </button>
+        <button class="mood-btn" onclick="setMood(this,'37i9dQZF1DXdPec7aLTmlC')">
+          <span class="mood-emoji">☀️</span><span class="mood-name">Happy</span><span class="mood-genre">pop · upbeat</span>
+        </button>
+        <button class="mood-btn" onclick="setMood(this,'37i9dQZF1DX4WYpdgoIcn6')">
+          <span class="mood-emoji">🌊</span><span class="mood-name">Chill</span><span class="mood-genre">chill · mellow</span>
+        </button>
+        <button class="mood-btn" onclick="setMood(this,'37i9dQZF1DX4aYNO8X5RpR')">
+          <span class="mood-emoji">🌧️</span><span class="mood-name">Rainy</span><span class="mood-genre">soft · dreamy</span>
+        </button>
+        <button class="mood-btn" onclick="setMood(this,'37i9dQZF1DX0BcQWzuB7ZO')">
+          <span class="mood-emoji">⚡</span><span class="mood-name">Hype</span><span class="mood-genre">energetic · dance</span>
+        </button>
+      </div>
+      <div id="spotifyArea">
+        <div class="spotify-placeholder">pick a mood above to load a playlist 🎶</div>
+      </div>
+    </div>
+
+    <!-- Activity Ideas -->
+    <div class="card">
+      <div class="card-label"><i class="ti ti-dice-3" aria-hidden="true"></i> bored? try this</div>
+      <div class="activity-inner">
+        <div class="activity-emoji" id="actEmoji">🎲</div>
+        <div class="activity-text" id="actText">Hit the button for an idea!</div>
+        <div class="activity-tag" id="actTag">—</div>
+      </div>
+      <div class="activity-btns">
+        <button class="btn-reroll" onclick="rollActivity()">↻ new idea</button>
+        <button class="btn-done" onclick="markDone()">✓ done that!</button>
+      </div>
+      <div class="act-count" id="actDone"></div>
+    </div>
+
+    <!-- Trivia -->
+    <div class="card">
+      <div class="card-label"><i class="ti ti-brain" aria-hidden="true"></i> trivia</div>
+      <div class="trivia-q" id="triviaQ">Loading your question...</div>
+      <div class="trivia-opts" id="triviaOpts"></div>
+      <div class="trivia-result" id="triviaResult"></div>
+      <button class="trivia-next" id="triviaNext" onclick="nextTrivia()">Next question →</button>
+      <div class="trivia-score">score: <b id="triviaScore">0</b> / <b id="triviaTotal">0</b></div>
+    </div>
+
+    <!-- Word Scramble -->
+    <div class="card full">
+      <div class="card-label"><i class="ti ti-puzzle" aria-hidden="true"></i> word scramble</div>
+      <div class="game-word" id="scrambled"></div>
+      <div class="game-hint" id="gameHint"></div>
+      <div class="game-input-row">
+        <input type="text" id="gameInput" placeholder="your answer..." onkeydown="if(event.key==='Enter')checkAnswer()" />
+        <button onclick="checkAnswer()">Guess</button>
+      </div>
+      <div class="game-msg" id="gameMsg"></div>
+      <div class="game-score">
+        <span>🌿 streak: <b id="streak">0</b></span>
+        <button class="game-skip" onclick="newWord()">skip →</button>
+        <span>solved: <b id="solved">0</b></span>
+      </div>
+    </div>
+
+    <!-- Habit Tracker -->
+    <div class="card full">
+      <div class="card-label"><i class="ti ti-flame" aria-hidden="true"></i> daily habits</div>
+      <div style="display:flex; justify-content:flex-end;">
+        <div class="habit-day-labels" id="habitDayLabels"></div>
+      </div>
+      <div class="habit-list" id="habitList"></div>
+      <div class="habit-add">
+        <input type="text" id="habitInput" placeholder="Add a new habit..." />
+        <button onclick="addHabit()">+ add</button>
+      </div>
+    </div>
+
+    <!-- Mini Diary -->
+    <div class="card full">
+      <div class="card-label"><i class="ti ti-notebook" aria-hidden="true"></i> mini diary</div>
+      <div class="diary-date-row">
+        <div class="diary-date" id="diaryDate"></div>
+        <div class="diary-nav">
+          <button onclick="diaryNav(-1)">← prev</button>
+          <button onclick="diaryNav(1)">next →</button>
+          <button onclick="diaryGoToday()">today</button>
+        </div>
+      </div>
+      <div class="diary-mood-row">
+        <span style="font-size:12px;color:#d4909e;margin-right:4px;align-self:center;">mood:</span>
+        <button class="diary-mood-btn" onclick="setDiaryMood(this,'😊')">😊</button>
+        <button class="diary-mood-btn" onclick="setDiaryMood(this,'😌')">😌</button>
+        <button class="diary-mood-btn" onclick="setDiaryMood(this,'😔')">😔</button>
+        <button class="diary-mood-btn" onclick="setDiaryMood(this,'😤')">😤</button>
+        <button class="diary-mood-btn" onclick="setDiaryMood(this,'🥰')">🥰</button>
+        <button class="diary-mood-btn" onclick="setDiaryMood(this,'😴')">😴</button>
+        <button class="diary-mood-btn" onclick="setDiaryMood(this,'🤩')">🤩</button>
+      </div>
+      <textarea class="diary-textarea" id="diaryText" placeholder="What's on your mind today? ✨ No pressure, just write..."></textarea>
+      <div class="diary-save">
+        <button onclick="saveDiary()">save entry 🌸</button>
+        <span class="diary-saved-msg" id="diarySavedMsg">saved!</span>
+      </div>
+    </div>
+
+    <!-- Wordle -->
+    <div class="card full">
+      <div class="card-label"><i class="ti ti-letter-case" aria-hidden="true"></i> cosy wordle</div>
+      <div class="wordle-msg" id="wordleMsg"></div>
+      <div class="wordle-grid" id="wordleGrid"></div>
+      <div class="wordle-keyboard" id="wordleKeyboard"></div>
+      <button class="wordle-new" onclick="initWordle()">↻ new word</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// --- HEADER ---
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function initHeader() {
+  const now = new Date();
+  const h = now.getHours();
+  const g = h < 12 ? 'good morning 🌸' : h < 17 ? 'good afternoon ☀️' : 'good evening 🌙';
+  document.getElementById('dateStr').textContent = DAYS[now.getDay()] + ', ' + now.getDate() + ' ' + MONTHS[now.getMonth()] + ' ' + now.getFullYear();
+  document.getElementById('greeting').textContent = g;
+}
+
+// --- WEATHER ---
+async function fetchWeather() {
+  if (!navigator.geolocation) { document.getElementById('wDesc').textContent = 'geolocation unavailable'; return; }
+  navigator.geolocation.getCurrentPosition(async pos => {
+    try {
+      const { latitude: lat, longitude: lon } = pos.coords;
+      const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code&timezone=auto`);
+      const d = await r.json();
+      const c = d.current;
+      document.getElementById('wTemp').textContent = Math.round(c.temperature_2m) + '°C';
+      document.getElementById('wHumid').textContent = '💧 ' + c.relative_humidity_2m + '%';
+      document.getElementById('wWind').textContent = '🌬️ ' + Math.round(c.wind_speed_10m) + ' km/h';
+      document.getElementById('wIcon').textContent = wmoIcon(c.weather_code);
+      document.getElementById('wDesc').textContent = wmoDesc(c.weather_code);
+    } catch(e) { document.getElementById('wDesc').textContent = 'could not load weather'; }
+  }, () => { document.getElementById('wDesc').textContent = 'allow location for live weather'; });
+}
+function wmoIcon(c) {
+  if (c===0) return '☀️'; if (c<=2) return '⛅'; if (c===3) return '☁️';
+  if (c<=49) return '🌫️'; if (c<=67) return '🌧️'; if (c<=77) return '❄️';
+  if (c<=82) return '🌦️'; return '⛈️';
+}
+function wmoDesc(c) {
+  if (c===0) return 'Clear sky'; if (c<=2) return 'Partly cloudy'; if (c===3) return 'Overcast';
+  if (c<=49) return 'Foggy'; if (c<=67) return 'Rainy'; if (c<=77) return 'Snowy';
+  if (c<=82) return 'Rain showers'; return 'Thunderstorm';
+}
+
+// --- QUOTES ---
+const QUOTES = [
+  {t:"Be yourself; everyone else is already taken.",a:"Oscar Wilde"},
+  {t:"The only way to do great work is to love what you do.",a:"Steve Jobs"},
+  {t:"In the middle of every difficulty lies opportunity.",a:"Albert Einstein"},
+  {t:"Simplicity is the ultimate sophistication.",a:"Leonardo da Vinci"},
+  {t:"Life is what happens when you're busy making other plans.",a:"John Lennon"},
+  {t:"Not all those who wander are lost.",a:"J.R.R. Tolkien"},
+  {t:"It always seems impossible until it's done.",a:"Nelson Mandela"},
+  {t:"The best time to plant a tree was 20 years ago. The second best is now.",a:"Chinese Proverb"},
+  {t:"You can't use up creativity. The more you use, the more you have.",a:"Maya Angelou"},
+  {t:"Everything you've ever wanted is on the other side of fear.",a:"George Addair"},
+  {t:"A small act is worth a million thoughts.",a:"Ai Weiwei"},
+  {t:"Stay curious, stay kind.",a:"Unknown"},
+  {t:"The present moment is the only time over which we have dominion.",a:"Thich Nhat Hanh"},
+  {t:"Do what you can, with what you have, where you are.",a:"Theodore Roosevelt"},
+  {t:"Wherever you go, go with all your heart.",a:"Confucius"},
+];
+let qIdx = Math.floor(Math.random() * QUOTES.length);
+function nextQuote() {
+  qIdx = (qIdx + 1) % QUOTES.length;
+  document.getElementById('qText').textContent = QUOTES[qIdx].t;
+  document.getElementById('qAuthor').textContent = '— ' + QUOTES[qIdx].a;
+}
+nextQuote();
+
+// --- COUNTDOWN ---
+let cdInterval = null, cdTarget = null;
+function setCountdown() {
+  const name = document.getElementById('cdName').value.trim() || 'Event';
+  const val = document.getElementById('cdDate').value;
+  if (!val) return;
+  cdTarget = new Date(val + 'T00:00:00');
+  document.getElementById('cdEvent').textContent = name;
+  if (cdInterval) clearInterval(cdInterval);
+  cdInterval = setInterval(updateCountdown, 1000);
+  updateCountdown();
+  localStorage.setItem('cosy_cd', JSON.stringify({name, date: val}));
+}
+function updateCountdown() {
+  if (!cdTarget) {
+    const xmas = new Date(new Date().getFullYear(), 11, 25);
+    if (new Date() > xmas) xmas.setFullYear(xmas.getFullYear() + 1);
+    cdTarget = xmas;
+    cdInterval = setInterval(updateCountdown, 1000);
+    updateCountdown(); return;
+  }
+  const diff = cdTarget - new Date();
+  if (diff <= 0) { ['cdD','cdH','cdM','cdS'].forEach(id => document.getElementById(id).textContent = '00'); return; }
+  document.getElementById('cdD').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+  document.getElementById('cdH').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+  document.getElementById('cdM').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+  document.getElementById('cdS').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+}
+function loadSavedCountdown() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('cosy_cd'));
+    if (saved) {
+      document.getElementById('cdName').value = saved.name;
+      document.getElementById('cdDate').value = saved.date;
+      setCountdown();
+    } else { updateCountdown(); }
+  } catch(e) { updateCountdown(); }
+}
+
+// --- TO-DO ---
+let todos = [];
+try { todos = JSON.parse(localStorage.getItem('cosy_todos') || '[]'); } catch(e) {}
+function saveTodos() { try { localStorage.setItem('cosy_todos', JSON.stringify(todos)); } catch(e) {} }
+function renderTodos() {
+  const ul = document.getElementById('todoList');
+  ul.innerHTML = '';
+  todos.forEach((t, i) => {
+    const li = document.createElement('li');
+    li.className = 'todo-item';
+    li.innerHTML = `<div class="todo-check ${t.done ? 'done' : ''}" onclick="toggleTodo(${i})"></div><span class="todo-text ${t.done ? 'done' : ''}">${escHtml(t.text)}</span><button class="todo-del" onclick="removeTodo(${i})" aria-label="remove">×</button>`;
+    ul.appendChild(li);
+  });
+}
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function addTodo() {
+  const inp = document.getElementById('todoInput');
+  const v = inp.value.trim();
+  if (!v) return;
+  todos.push({ text: v, done: false });
+  inp.value = '';
+  saveTodos(); renderTodos();
+}
+function toggleTodo(i) { todos[i].done = !todos[i].done; saveTodos(); renderTodos(); }
+function removeTodo(i) { todos.splice(i, 1); saveTodos(); renderTodos(); }
+document.getElementById('todoInput').addEventListener('keydown', e => { if (e.key === 'Enter') addTodo(); });
+
+// --- MOOD MUSIC ---
+function setMood(btn, playlistId) {
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('spotifyArea').innerHTML = `<iframe class="spotify-embed" src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+}
+
+// --- ACTIVITY IDEAS ---
+const ACTIVITIES = [
+  {e:'📖',t:"Read the first chapter of a book you've been meaning to start",c:'reading'},
+  {e:'🚶',t:"Go for a 10-minute walk with no phone",c:'outside'},
+  {e:'🍵',t:"Make a cup of tea and sit somewhere you don't usually sit",c:'mindful'},
+  {e:'✍️',t:"Write down 3 things you're grateful for right now",c:'journaling'},
+  {e:'🧩',t:"Do a puzzle or jigsaw for 15 minutes",c:'games'},
+  {e:'🌱',t:"Water your plants or look after something living",c:'home'},
+  {e:'🎨',t:"Doodle something — anything at all, just draw",c:'creative'},
+  {e:'📷',t:"Take 5 photos of interesting things around you right now",c:'creative'},
+  {e:'💌',t:"Send a nice message to someone you haven't spoken to in a while",c:'social'},
+  {e:'🧁',t:"Bake something simple — even just toast with something yummy",c:'food'},
+  {e:'🎬',t:"Watch a short documentary — YouTube has great ones",c:'learning'},
+  {e:'🛁',t:"Have a long bath or shower and take your time",c:'self-care'},
+  {e:'🗂️',t:"Organise one small corner — a drawer, a shelf, a folder",c:'home'},
+  {e:'🌅',t:"Step outside and watch the sky for two minutes",c:'outside'},
+  {e:'🎲',t:"Learn one new interesting fact about something random",c:'learning'},
+  {e:'🧘',t:"Try a 5-minute breathing exercise: in for 4, hold 4, out for 4",c:'mindful'},
+  {e:'🎵',t:"Listen to an album start to finish with no skipping",c:'music'},
+  {e:'📝',t:"Write a short poem — it doesn't have to be good!",c:'creative'},
+  {e:'🍳',t:"Cook something you've never made before",c:'food'},
+  {e:'☎️',t:"Call a family member just to say hi",c:'social'},
+  {e:'🔭',t:"Look up what's visible in the night sky tonight",c:'learning'},
+  {e:'🕹️',t:"Play a game guilt-free for a bit",c:'games'},
+  {e:'🌿',t:"Go for a walk and try to identify 3 plants you see",c:'outside'},
+  {e:'🎤',t:"Sing along to your favourite song at full volume",c:'music'},
+  {e:'📚',t:"Reorganise your bookshelf or digital files",c:'home'},
+];
+let doneActivities = [];
+let currentActivity = null;
+function rollActivity() {
+  const avail = ACTIVITIES.filter(a => !doneActivities.includes(a.t));
+  const pool = avail.length ? avail : ACTIVITIES;
+  currentActivity = pool[Math.floor(Math.random() * pool.length)];
+  document.getElementById('actEmoji').textContent = currentActivity.e;
+  document.getElementById('actText').textContent = currentActivity.t;
+  document.getElementById('actTag').textContent = currentActivity.c;
+  document.getElementById('actDone').textContent = doneActivities.length ? '✓ done ' + doneActivities.length + ' today' : '';
+}
+function markDone() {
+  if (currentActivity) { doneActivities.push(currentActivity.t); rollActivity(); }
+}
+rollActivity();
+
+// --- TRIVIA ---
+const TRIVIA = [
+  {q:"What is the capital of Australia?",opts:["Sydney","Melbourne","Canberra","Brisbane"],a:2},
+  {q:"How many sides does a heptagon have?",opts:["5","6","7","8"],a:2},
+  {q:"What element does 'O' represent on the periodic table?",opts:["Osmium","Oxygen","Gold","Iron"],a:1},
+  {q:"Who wrote 'Pride and Prejudice'?",opts:["Charlotte Brontë","Jane Austen","George Eliot","Mary Shelley"],a:1},
+  {q:"Which planet is closest to the Sun?",opts:["Venus","Earth","Mars","Mercury"],a:3},
+  {q:"What is the largest ocean on Earth?",opts:["Atlantic","Indian","Arctic","Pacific"],a:3},
+  {q:"In what year did the Berlin Wall fall?",opts:["1987","1989","1991","1993"],a:1},
+  {q:"What language has the most native speakers in the world?",opts:["English","Spanish","Mandarin","Hindi"],a:2},
+  {q:"Which country invented the printing press?",opts:["China","Italy","Germany","France"],a:2},
+  {q:"What is the smallest country in the world?",opts:["Monaco","San Marino","Vatican City","Liechtenstein"],a:2},
+  {q:"How many strings does a standard guitar have?",opts:["4","5","6","7"],a:2},
+  {q:"What gas do plants absorb from the atmosphere?",opts:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"],a:2},
+  {q:"Who painted the Mona Lisa?",opts:["Michelangelo","Raphael","Leonardo da Vinci","Botticelli"],a:2},
+  {q:"What is the fastest land animal?",opts:["Lion","Cheetah","Greyhound","Pronghorn"],a:1},
+  {q:"How many bones are in the adult human body?",opts:["196","206","216","226"],a:1},
+  {q:"What does 'www' stand for in a website address?",opts:["World Wide Web","Wide World Web","World Web Wide","Western World Web"],a:0},
+  {q:"Which Shakespeare play features the character Ophelia?",opts:["Macbeth","Othello","Hamlet","King Lear"],a:2},
+  {q:"What is the currency of Japan?",opts:["Won","Yuan","Baht","Yen"],a:3},
+  {q:"How many colours are in a rainbow?",opts:["5","6","7","8"],a:2},
+  {q:"Which planet has the most moons?",opts:["Jupiter","Saturn","Uranus","Neptune"],a:1},
+  {q:"What is the longest river in the world?",opts:["Amazon","Congo","Yangtze","Nile"],a:3},
+  {q:"Who was the first person to walk on the Moon?",opts:["Buzz Aldrin","Yuri Gagarin","Neil Armstrong","Alan Shepard"],a:2},
+  {q:"What is the hardest natural substance on Earth?",opts:["Quartz","Diamond","Graphite","Ruby"],a:1},
+  {q:"How many hearts does an octopus have?",opts:["1","2","3","4"],a:2},
+  {q:"What year was the Eiffel Tower built?",opts:["1879","1884","1889","1895"],a:2},
+];
+let triviaOrder = [], triviaIdx = 0, triviaScore = 0, triviaTotal = 0, triviaAnswered = false;
+function shuffleTrivia() { triviaOrder = TRIVIA.map((_,i)=>i).sort(()=>Math.random()-0.5); triviaIdx = 0; }
+function loadTrivia() {
+  const q = TRIVIA[triviaOrder[triviaIdx]];
+  document.getElementById('triviaQ').textContent = q.q;
+  document.getElementById('triviaResult').textContent = '';
+  document.getElementById('triviaNext').style.display = 'none';
+  triviaAnswered = false;
+  const opts = document.getElementById('triviaOpts');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'trivia-opt';
+    btn.textContent = opt;
+    btn.onclick = () => answerTrivia(i, q.a, btn);
+    opts.appendChild(btn);
+  });
+}
+function answerTrivia(picked, correct, btn) {
+  if (triviaAnswered) return;
+  triviaAnswered = true; triviaTotal++;
+  document.querySelectorAll('.trivia-opt').forEach((b, i) => { b.disabled = true; if (i === correct) b.classList.add('correct'); });
+  const res = document.getElementById('triviaResult');
+  if (picked === correct) { triviaScore++; btn.classList.add('correct'); res.textContent = '✓ correct! well done 🌿'; }
+  else { btn.classList.add('wrong'); res.textContent = '✗ the answer was: ' + TRIVIA[triviaOrder[triviaIdx]].opts[correct]; }
+  document.getElementById('triviaScore').textContent = triviaScore;
+  document.getElementById('triviaTotal').textContent = triviaTotal;
+  document.getElementById('triviaNext').style.display = 'inline-block';
+}
+function nextTrivia() { triviaIdx = (triviaIdx + 1) % triviaOrder.length; loadTrivia(); }
+
+// --- WORD SCRAMBLE ---
+const WORDS = [
+  {w:'cosy',h:'warm and comfortable'},{w:'sunrise',h:'start of the day'},{w:'breeze',h:'gentle wind'},
+  {w:'lantern',h:'light in the dark'},{w:'blossom',h:'flowers blooming'},{w:'wander',h:'roam freely'},
+  {w:'kettle',h:'makes tea'},{w:'blanket',h:'keeps you warm'},{w:'candle',h:'gives soft light'},
+  {w:'willow',h:'a weeping tree'},{w:'meadow',h:'open grassy field'},{w:'muffin',h:'a baked treat'},
+  {w:'acorn',h:'seed of an oak'},{w:'ponder',h:'think deeply'},{w:'autumn',h:'season of falling leaves'},
+  {w:'riddle',h:'a tricky question'},{w:'fennel',h:'a feathery herb'},{w:'locket',h:'small hinged necklace'},
+  {w:'thatch',h:'roof made of straw'},{w:'gravel',h:'small stones on a path'},{w:'cobble',h:'old street stones'},
+  {w:'muslin',h:'a light fabric'},{w:'pebble',h:'small smooth stone'},{w:'cobweb',h:'spider makes one'},
+];
+let currentWord = '', gameStreak = 0, gameSolved = 0, usedWords = [];
+function scramble(w) {
+  let a = w.split('');
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a.join('') === w ? scramble(w) : a.join('');
+}
+function newWord() {
+  if (usedWords.length >= WORDS.length) usedWords = [];
+  const avail = WORDS.filter(x => !usedWords.includes(x.w));
+  const pick = avail[Math.floor(Math.random() * avail.length)];
+  currentWord = pick.w; usedWords.push(currentWord);
+  document.getElementById('scrambled').textContent = scramble(currentWord).toUpperCase();
+  document.getElementById('gameHint').textContent = 'hint: ' + pick.h;
+  document.getElementById('gameInput').value = '';
+  document.getElementById('gameMsg').textContent = '';
+  document.getElementById('gameMsg').className = 'game-msg';
+}
+function checkAnswer() {
+  const ans = document.getElementById('gameInput').value.trim().toLowerCase();
+  const msg = document.getElementById('gameMsg');
+  if (!ans) return;
+  if (ans === currentWord) {
+    gameStreak++; gameSolved++;
+    document.getElementById('streak').textContent = gameStreak;
+    document.getElementById('solved').textContent = gameSolved;
+    msg.textContent = '✓ lovely! the word was "' + currentWord + '"';
+    msg.className = 'game-msg correct';
+    setTimeout(newWord, 1400);
+  } else {
+    gameStreak = 0; document.getElementById('streak').textContent = 0;
+    msg.textContent = 'not quite — try again!'; msg.className = 'game-msg wrong';
+    document.getElementById('gameInput').value = '';
+  }
+}
+
+
+// --- HABIT TRACKER ---
+const HABIT_DAYS = 7;
+let habits = [];
+try { habits = JSON.parse(localStorage.getItem('cosy_habits') || '[]'); } catch(e) {}
+function saveHabits() { try { localStorage.setItem('cosy_habits', JSON.stringify(habits)); } catch(e) {} }
+function todayKey() { const d = new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function dayKey(offset) { const d = new Date(); d.setDate(d.getDate()+offset); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function renderHabitDayLabels() {
+  const el = document.getElementById('habitDayLabels');
+  const short = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+  el.innerHTML = '';
+  for (let i = -(HABIT_DAYS-1); i <= 0; i++) {
+    const d = new Date(); d.setDate(d.getDate()+i);
+    const lbl = document.createElement('div'); lbl.className = 'habit-day-label'; lbl.textContent = short[d.getDay()];
+    el.appendChild(lbl);
+  }
+}
+function renderHabits() {
+  renderHabitDayLabels();
+  const el = document.getElementById('habitList'); el.innerHTML = '';
+  habits.forEach((h, hi) => {
+    const row = document.createElement('div'); row.className = 'habit-row';
+    const name = document.createElement('div'); name.className = 'habit-name'; name.textContent = h.name;
+    const dots = document.createElement('div'); dots.className = 'habit-dots';
+    for (let i = -(HABIT_DAYS-1); i <= 0; i++) {
+      const k = dayKey(i);
+      const dot = document.createElement('div');
+      dot.className = 'habit-dot' + (h.done[k] ? ' done' : '');
+      dot.textContent = h.done[k] ? '✓' : '';
+      if (i === 0) { dot.onclick = () => { h.done[k] = !h.done[k]; saveHabits(); renderHabits(); }; dot.title = 'mark today'; }
+      else { dot.style.cursor = 'default'; dot.style.opacity = '0.6'; }
+      dots.appendChild(dot);
+    }
+    const del = document.createElement('button'); del.className = 'habit-del-btn'; del.textContent = '×';
+    del.onclick = () => { habits.splice(hi,1); saveHabits(); renderHabits(); };
+    row.appendChild(name); row.appendChild(dots); row.appendChild(del);
+    el.appendChild(row);
+  });
+}
+function addHabit() {
+  const inp = document.getElementById('habitInput');
+  const v = inp.value.trim(); if (!v) return;
+  habits.push({ name: v, done: {} });
+  inp.value = ''; saveHabits(); renderHabits();
+}
+document.getElementById('habitInput').addEventListener('keydown', e => { if (e.key==='Enter') addHabit(); });
+
+// --- MINI DIARY ---
+let diaryOffset = 0;
+let diaryMood = '';
+function diaryDateKey(offset) {
+  const d = new Date(); d.setDate(d.getDate()+offset);
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+function diaryFriendlyDate(offset) {
+  const d = new Date(); d.setDate(d.getDate()+offset);
+  if (offset===0) return 'today — ' + DAYS[d.getDay()] + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()];
+  if (offset===-1) return 'yesterday — ' + DAYS[d.getDay()] + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()];
+  return DAYS[d.getDay()] + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+}
+function loadDiaryEntry() {
+  const key = diaryDateKey(diaryOffset);
+  let entries = {};
+  try { entries = JSON.parse(localStorage.getItem('cosy_diary') || '{}'); } catch(e) {}
+  const entry = entries[key] || { text: '', mood: '' };
+  document.getElementById('diaryText').value = entry.text;
+  document.getElementById('diaryDate').textContent = diaryFriendlyDate(diaryOffset);
+  diaryMood = entry.mood;
+  document.querySelectorAll('.diary-mood-btn').forEach(b => {
+    b.classList.toggle('selected', b.textContent === diaryMood);
+  });
+  document.getElementById('diarySavedMsg').classList.remove('show');
+}
+function saveDiary() {
+  const key = diaryDateKey(diaryOffset);
+  let entries = {};
+  try { entries = JSON.parse(localStorage.getItem('cosy_diary') || '{}'); } catch(e) {}
+  entries[key] = { text: document.getElementById('diaryText').value, mood: diaryMood };
+  try { localStorage.setItem('cosy_diary', JSON.stringify(entries)); } catch(e) {}
+  const msg = document.getElementById('diarySavedMsg');
+  msg.classList.add('show');
+  setTimeout(() => msg.classList.remove('show'), 2000);
+}
+function diaryNav(dir) {
+  diaryOffset = Math.min(0, diaryOffset + dir);
+  loadDiaryEntry();
+}
+function diaryGoToday() { diaryOffset = 0; loadDiaryEntry(); }
+function setDiaryMood(btn, mood) {
+  diaryMood = mood;
+  document.querySelectorAll('.diary-mood-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+// --- WORDLE ---
+const WORDLE_WORDS = [
+  'blush','cloak','daisy','ember','fable','flame','gloom','grove','haven','heart',
+  'honey','ivory','jewel','lemon','light','lilac','lodge','lumen','lunar','magic',
+  'maple','misty','mocha','mossy','night','nymph','oasis','ocean','olive','ombre',
+  'optic','orbit','ovoid','pansy','peach','petal','piano','pilaf','plaid','plume',
+  'poppy','prism','prose','quail','queen','quest','quiet','quill','rainy','robin',
+  'roomy','rowan','rural','rusty','sable','sepia','shade','shawl','shine','silky',
+  'skimp','sleek','slate','sleek','sleet','sloth','snowy','solar','sooth','spice',
+  'sprig','squab','stain','stark','steam','stoic','story','strap','straw','sugar',
+  'sunny','swamp','swirl','tacit','taffy','taupe','tepid','thyme','tiara','tiger',
+  'tidal','topaz','trout','tulip','tulle','tummy','tuner','twill','twist','viola',
+  'viper','vivid','waltz','water','weave','wheat','whirl','white','wield','wispy',
+  'witty','woven','yacht','yearn','yield','young','zesty','zilch','zonal','zingy'
+];
+let wAnswer = '', wGuesses = [], wCurrent = '', wGameOver = false;
+function initWordle() {
+  wAnswer = WORDLE_WORDS[Math.floor(Math.random()*WORDLE_WORDS.length)].toUpperCase();
+  wGuesses = []; wCurrent = ''; wGameOver = false;
+  document.getElementById('wordleMsg').textContent = '';
+  document.getElementById('wordleMsg').className = 'wordle-msg';
+  renderWordleGrid();
+  renderWordleKeyboard();
+}
+function renderWordleGrid() {
+  const grid = document.getElementById('wordleGrid'); grid.innerHTML = '';
+  for (let r = 0; r < 6; r++) {
+    const row = document.createElement('div'); row.className = 'wordle-row';
+    const guess = r < wGuesses.length ? wGuesses[r] : (r === wGuesses.length ? wCurrent : '');
+    const submitted = r < wGuesses.length;
+    for (let c = 0; c < 5; c++) {
+      const cell = document.createElement('div'); cell.className = 'wordle-cell';
+      const letter = guess[c] || '';
+      cell.textContent = letter;
+      if (submitted && letter) {
+        if (wAnswer[c] === letter) cell.classList.add('correct');
+        else if (wAnswer.includes(letter)) cell.classList.add('present');
+        else cell.classList.add('absent');
+      } else if (letter) { cell.classList.add('filled'); }
+      row.appendChild(cell);
+    }
+    grid.appendChild(row);
+  }
+}
+function renderWordleKeyboard() {
+  const kb = document.getElementById('wordleKeyboard'); kb.innerHTML = '';
+  const rows = [['Q','W','E','R','T','Y','U','I','O','P'],['A','S','D','F','G','H','J','K','L'],['ENTER','Z','X','C','V','B','N','M','⌫']];
+  const letterState = {};
+  wGuesses.forEach(g => {
+    for (let i=0;i<5;i++) {
+      const l=g[i];
+      if (wAnswer[i]===l) letterState[l]='correct';
+      else if (wAnswer.includes(l) && letterState[l]!=='correct') letterState[l]='present';
+      else if (!letterState[l]) letterState[l]='absent';
+    }
+  });
+  rows.forEach(row => {
+    const r = document.createElement('div'); r.className = 'wordle-kb-row';
+    row.forEach(k => {
+      const btn = document.createElement('button'); btn.className = 'wordle-key';
+      if (k==='ENTER'||k==='⌫') btn.classList.add('wide');
+      btn.textContent = k;
+      if (letterState[k]) btn.classList.add(letterState[k]);
+      btn.onclick = () => wordleKey(k);
+      r.appendChild(btn);
+    });
+    kb.appendChild(r);
+  });
+}
+function wordleKey(k) {
+  if (wGameOver) return;
+  if (k==='⌫') { wCurrent = wCurrent.slice(0,-1); }
+  else if (k==='ENTER') {
+    if (wCurrent.length<5) { showWordleMsg('not enough letters',''); return; }
+    wGuesses.push(wCurrent);
+    if (wCurrent===wAnswer) {
+      wGameOver=true;
+      const msgs=['perfect! 🌸','amazing! ✨','brilliant! 💕','you got it! 🎉','lovely! 🌷'];
+      showWordleMsg(msgs[Math.min(wGuesses.length-1,msgs.length-1)],'win');
+    } else if (wGuesses.length===6) {
+      wGameOver=true; showWordleMsg('the word was: '+wAnswer,'lose');
+    } else { showWordleMsg('',''); }
+    wCurrent='';
+  } else if (wCurrent.length<5) { wCurrent+=k; }
+  renderWordleGrid(); renderWordleKeyboard();
+}
+function showWordleMsg(txt, cls) {
+  const el = document.getElementById('wordleMsg');
+  el.textContent = txt; el.className = 'wordle-msg'+(cls?' '+cls:'');
+}
+document.addEventListener('keydown', e => {
+  if (document.activeElement.tagName==='INPUT'||document.activeElement.tagName==='TEXTAREA') return;
+  if (e.key==='Enter') wordleKey('ENTER');
+  else if (e.key==='Backspace') wordleKey('⌫');
+  else if (/^[a-zA-Z]$/.test(e.key)) wordleKey(e.key.toUpperCase());
+});
+
+// --- INIT ---
+initHeader();
+fetchWeather();
+loadSavedCountdown();
+renderTodos();
+shuffleTrivia();
+loadTrivia();
+newWord();
+renderHabits();
+loadDiaryEntry();
+initWordle();
+</script>
+</body>
+</html>
